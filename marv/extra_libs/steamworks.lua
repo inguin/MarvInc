@@ -2346,6 +2346,7 @@ SteamWorks_ISteamHTTP *SteamHTTP();
 SteamWorks_ISteamUGC *SteamUGC();
 SteamWorks_ISteamUser *SteamUser();
 bool SteamAPI_Init();]]
+print("------Steam API Integration------")
 local lib
 
 if jit.os == "Windows" then
@@ -2360,20 +2361,19 @@ end
 
 assert(lib, "Steam api not found")
 
-do
+if CREATE_APPID_FILE then
 	local file = io.open("steam_appid.txt")
 	if file then
 		io.close(file)
 	else
 		local file, err = io.open("steam_appid.txt", "w")
 		if file then
-			file:write("827940") -- Your appid
+			file:write("827940") -- appid
 			io.close(file)
 		else
 			error("Failed to write steam_appid.txt (because it's needed) in cd : " .. err)
 		end
 	end
-
 end
 print(lib)
 if not lib.SteamAPI_Init() then
@@ -3006,4 +3006,5 @@ function META:AdvertiseGame(unIPServer, usPortServer) return steamworks.user.Adv
 META.__tostring = function(self) return ('[%s]%s'):format(self.id, self:GetPersonaName()) end
 function steamworks.GetFriendObjectFromSteamID(id) return setmetatable({id = id}, META) end
 steamworks.steamid_meta = META
+print("---------------------------------")
 return steamworks

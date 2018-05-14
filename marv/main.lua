@@ -89,13 +89,15 @@ START_PUZZLE = nil
 START_USER = nil
 -- Whether the game shows the splash screen
 SKIP_SPLASH = nil
+
 -- Whether the game is running with steam (for steam integration)
 USING_STEAM = false
-
+STEAMWORKS = nil
+STEAMWORKS_API = nil
+CREATE_APPID_FILE = nil
 
 function love.load(args)
     for i, cmd in ipairs(args) do
-        print (cmd, #args)
         if cmd:sub(1, 9) == "--puzzle=" then
             START_PUZZLE = cmd:sub(10)
         elseif cmd:sub(1, 7) == "--user=" then
@@ -104,6 +106,9 @@ function love.load(args)
             SKIP_SPLASH = true
         elseif cmd == "--steam" then
             USING_STEAM = true
+        elseif cmd == "--steamdev" then
+            USING_STEAM = true
+            CREATE_APPID_FILE = true
         end
     end
 
@@ -199,4 +204,5 @@ function love.quit()
     if bgmm then
         bgmm.current_bgm:fadeout()
     end
+
 end

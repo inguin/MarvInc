@@ -1,4 +1,5 @@
 build/
+steam_appid.txt
 *.swp
 *.vim
 *.lvimrc
