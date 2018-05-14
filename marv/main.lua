@@ -15,7 +15,7 @@ Camera    = require "extra_libs.hump.camera"
 Vector    = require "extra_libs.hump.vector"
 Signal    = require "extra_libs.hump.signal"
 
---OTHER EXTRA LIBS
+--SLAM
 require "extra_libs.slam"
 
 --MY MODULES
@@ -89,16 +89,28 @@ START_PUZZLE = nil
 START_USER = nil
 -- Whether the game shows the splash screen
 SKIP_SPLASH = nil
+-- Whether the game is running with steam (for steam integration)
+USING_STEAM = false
+
 
 function love.load(args)
     for i, cmd in ipairs(args) do
+        print (cmd, #args)
         if cmd:sub(1, 9) == "--puzzle=" then
             START_PUZZLE = cmd:sub(10)
         elseif cmd:sub(1, 7) == "--user=" then
             START_USER = cmd:sub(8)
         elseif cmd == "--no-splash" or cmd == "--skip-splash" then
             SKIP_SPLASH = true
+        elseif cmd == "--steam" then
+            USING_STEAM = true
         end
+    end
+
+    --Steam Integration Stuff
+    if USING_STEAM then
+        ffi = require "ffi"
+        require "extra_libs.steamworks"
     end
 
     Setup.config() --Configure your game
